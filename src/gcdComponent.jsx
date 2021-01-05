@@ -15,7 +15,7 @@ export class GCDComponent extends React.Component {
   render() {
     let polynomials = this.props.polynomials.map(halfPoly => {
       let semiPoly = halfPoly.map((term, i) => [i, Number(term)])
-      //console.log(semiPoly)
+      console.log(this.props.field)
       let finalPoly = new Polynomial(semiPoly, this.props.field)
       finalPoly.zeroOut()
       return finalPoly

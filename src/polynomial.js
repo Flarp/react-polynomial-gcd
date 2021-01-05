@@ -37,7 +37,7 @@ export class Polynomial {
 			}
 		}
 	}
-	console.log(this.units)
+	console.log(this.units, this.p)
   }
   
   greaterThan(other) {
@@ -57,7 +57,7 @@ export class Polynomial {
   }
   
   add(rhs) {
-    let ret = new Polynomial(rhs.polynomial.length > this.polynomial.length ? rhs.polynomial.length : this.polynomial.length)
+    let ret = new Polynomial(rhs.polynomial.length > this.polynomial.length ? rhs.polynomial.length : this.polynomial.length, this.p)
     for (let i = 0; i < ret.polynomial.length; i++) {
       ret.polynomial[i] = (this.polynomial[i] || 0) + (rhs.polynomial[i] || 0)
     }
@@ -67,7 +67,7 @@ export class Polynomial {
   
   multiplyByTerm(exponent, coef) {
     const degree = this.degree()
-    const ret = new Polynomial(degree + exponent)
+    const ret = new Polynomial(degree + exponent, this.p)
     for (let i = 0; i <= degree; i++) {
       ret.polynomial[i + exponent] = this.polynomial[i] * coef
     }
@@ -102,7 +102,7 @@ export class Polynomial {
       if (this.p === "q") {
         cancel = -(r.leadingTerm()/bLead)
       } else {
-        cancel = this.units[mod(bLead, this.p)] * -1 * r.leadingTerm()
+        cancel = this.units[mod(bLead, this.p)] * -1 * mod(r.leadingTerm(), this.p)
       }
       let qTemp = [r.degree() - b.degree(), cancel]
       const qTemp2 = new Polynomial([qTemp], this.p)
