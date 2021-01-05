@@ -5,20 +5,13 @@ import {PolynomialComponent} from "./polynomialComponent.jsx"
 import {GCDComponent} from "./gcdComponent.jsx"
 import {FieldSelector} from "./fieldSelector.jsx"
 
-const mod = (n, p) => ((n % p) + p) % p
-let units = {}
-let fieldModulo = "q"
-
-
 // Web Form API
-class Main extends React.Component {
+class GCDPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // final is modulo
       polynomials: [[-2,-1],[-1, 1, 1]],
       showGCD: false,
-      showModulo: false,
       field: "q",
     }
   }
@@ -54,4 +47,4 @@ class Main extends React.Component {
   }
 }
 
-ReactDom.render(<Main/>, document.getElementById("main"))
+ReactDom.render(<GCDPage/>, document.getElementById("main"))

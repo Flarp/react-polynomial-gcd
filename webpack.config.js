@@ -2,7 +2,13 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve(__dirname, "./src/main.jsx"),	
+  entry: {
+	  gcd: "./src/gcdProgram.jsx"
+  },
+  output: {
+	  filename: "[name].js",
+	  path: __dirname + "/dist"
+  },
   devtool: "source-map",
   module: {
     rules: [
