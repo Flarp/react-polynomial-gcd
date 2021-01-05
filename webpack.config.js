@@ -1,10 +1,24 @@
 var path = require('path');
 var webpack = require('webpack');
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+
+const entry = {
+  gcd: "./src/gcdProgram.jsx",
+  combiner: "./src/polynomialCombiner.jsx"
+}
+
+const plugins = Object.keys(entry).map(key => 
+	new HtmlWebpackPlugin({
+		title: key.toUpperCase(),
+		template: "./src/template.html",
+		filename: `${key}.html`,
+		inject: false,
+		chunks: [key]
+	})
+)
 
 module.exports = {
-  entry: {
-	  gcd: "./src/gcdProgram.jsx"
-  },
+  entry: entry,
   output: {
 	  filename: "[name].js",
 	  path: __dirname + "/dist"
@@ -18,5 +32,6 @@ module.exports = {
 		use: ["babel-loader"]
       },
     ],
-  }
+  },
+  plugins: plugins
 }
