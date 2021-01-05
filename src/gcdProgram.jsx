@@ -27,7 +27,6 @@ class GCDPage extends React.Component {
   }
   
   updateUnits(e) {
-    units = {}
 	const modulo = Number(event.target.value)
 	this.setState({field: modulo || "q", showGCD: false})
   }
