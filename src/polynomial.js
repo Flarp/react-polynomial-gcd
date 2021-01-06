@@ -8,6 +8,8 @@ function cloneObj(original) {
 }
 
 export class Polynomial {
+  // inp is of either an array in the form [[degree, coefficient]]
+  // or a degree of a polynomial that is initialized to 0x^n for all n < degree
   constructor(inp, p) {
     if (Array.isArray(inp)) {
       let inpArr = inp
@@ -37,7 +39,9 @@ export class Polynomial {
 			}
 		}
 	}
-	console.log(this.units, this.p)
+	console.log(this.print(), this.polynomial)
+	this.zeroOut()
+	console.log(this.print(), this.polynomial)
   }
   
   greaterThan(other) {
@@ -57,8 +61,9 @@ export class Polynomial {
   }
   
   add(rhs) {
-    let ret = new Polynomial(rhs.polynomial.length > this.polynomial.length ? rhs.polynomial.length : this.polynomial.length, this.p)
-    for (let i = 0; i < ret.polynomial.length; i++) {
+	const length = rhs.polynomial.length > this.polynomial.length ? rhs.polynomial.length : this.polynomial.length
+    let ret = new Polynomial(length, this.p)
+    for (let i = 0; i < length; i++) {
       ret.polynomial[i] = (this.polynomial[i] || 0) + (rhs.polynomial[i] || 0)
     }
     ret.zeroOut()
@@ -68,6 +73,9 @@ export class Polynomial {
   multiplyByTerm(exponent, coef) {
     const degree = this.degree()
     const ret = new Polynomial(degree + exponent, this.p)
+	for (let i = 0; i < exponent; i++) {
+		ret.polynomial[i] = 0
+	}
     for (let i = 0; i <= degree; i++) {
       ret.polynomial[i + exponent] = this.polynomial[i] * coef
     }
@@ -77,7 +85,8 @@ export class Polynomial {
   
   multiply(rhs) {
 	  const newDeg = this.degree() + rhs.degree()
-	  let ret = new Polynomial(newDeg)
+	  console.log(newDeg, this.degree(), rhs.degree())
+	  let ret = new Polynomial(newDeg, this.p)
 	  for (let k = 0; k <= newDeg; k++) {
 		  let sum = 0
 		  for (let i = 0; i <= k; i++) {
@@ -85,18 +94,28 @@ export class Polynomial {
 		  }
 		  ret.polynomial[k] = sum
 	  }
+	  ret.zeroOut()
+	  return ret
   }
   
+  // while a polynomial f(x) = 0 has degree -Infinity, we make it the value
+  // -0 so it can still be used as zero in arithmetic but JS will treat it differently
   degree() {
-    return this.polynomial.length - 1
+    return this.polynomial.length > 0 ? this.polynomial.length - 1 : -0
   }
   
   modulo(b) {
+	return this.divide(b)[0]  
+  }
+  
+  divide(_b) {
     let r = cloneObj(this)
+	let b = cloneObj(_b)
     let q = new Polynomial(1, this.p)
 
-    while (r.degree() >= b.degree()) {
-	  console.log("sweet caroline", r.print(), b.print())
+	// by using Object.is(), 0 !== -0
+    while (r.degree() > b.degree() || Object.is(r.degree(), b.degree())) {
+		console.log("looping?", r.print(), b.print(), r.degree(), b.degree())
       const bLead = b.leadingTerm()
       let cancel = 0
       if (this.p === "q") {
@@ -111,12 +130,14 @@ export class Polynomial {
 
       r = r.add(negB)
     }
-    return r
+    return [r, q]
   }
   
+  // clean up function to ensure polynomial is in valid state
   zeroOut() {
     let i = 0
     for (i = 0; i < this.polynomial.length; i++) {
+		
 	  // account for rounding errors in fp division
       if (Math.abs(this.polynomial[i]) < (1e-10)) this.polynomial[i] = 0
       const round = Math.round(this.polynomial[i])
@@ -163,7 +184,9 @@ export class Polynomial {
     return str
   }
   
-  static gcd(a, b) {
+  static gcd(_a, _b) {
+	let a = cloneObj(_a)
+	let b = cloneObj(_b)
 	if (b.greaterThan(a)) {
 		let temp = a
 		a = b
@@ -175,7 +198,46 @@ export class Polynomial {
 		a = temp
 	}
 	return a.monik()
-
   }
+  
+  static extendedGCD(_a, _b) {
+	  let a = cloneObj(_a)
+	  let b = cloneObj(_b)
+	  
+	  if (b.greaterThan(a)) {
+		let temp = a
+		a = b
+		b = temp
+	  }
+	  const r = [a, b]
+	  const s = [new Polynomial([[0, 1]], a.p), new Polynomial([[0 ,0]], a.p)]
+	  const t = [new Polynomial([[0, 0]], a.p), new Polynomial([[0 ,1]], a.p)]
+	  
+	  while (!b.isZero()) {
+		let temp = b
+		let q
+		[b, q] = a.divide(b)
+		
+		let tempR = q.multiply(b).multiplyByTerm(0, -1)
+		tempR = tempR.add(r[0])
+		
+		let tempS = q.multiply(s[1]).multiplyByTerm(0, -1)
+		tempS = tempS.add(s[0])
+		
+		let tempT = q.multiply(t[1]).multiplyByTerm(0, -1)
+		tempT = tempT.add(t[0])
+		
+		r.push(tempR)
+		r.shift()
+		s.push(tempS)
+		s.shift()
+		t.push(tempT)
+		t.shift()
+		
+		a = temp
+	  }
+	  return [a.monik(), s[0], t[0]]
+  }
+	  
 
 }

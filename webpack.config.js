@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 const entry = {
   gcd: "./src/gcdProgram.jsx",
-  combiner: "./src/polynomialCombiner.jsx"
+  combiner: "./src/polynomialCombiner.jsx",
+  inverse: "./src/inverseFinder.jsx"
 }
 
 const plugins = Object.keys(entry).map(key => 
@@ -27,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /.jsx?$/,
+        test: /.jsx$/,
 		exclude: /node_modules/,
 		use: ["babel-loader"]
       },
