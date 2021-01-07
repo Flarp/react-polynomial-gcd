@@ -1,4 +1,4 @@
-const mod = (n, p) => ((n % p) + p) % p
+import {mod} from "./src/helperMath.js"
 
 // borrowed from https://www.nickang.com/2018-01-17-how-to-clone-class-instance-javascript/
 // cloning ES6 classes is nightmarish and needs extra code
