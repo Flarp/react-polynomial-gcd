@@ -246,7 +246,7 @@ export class Polynomial {
 
   static cyclotomic(n) {
 	  let poly = new Polynomial(1)
-	  const p = Math.floor(n/2)
+	  const p = n/2
 	  const under = primesUnder(n + 1)
 	  if (n === 1) {
 		return new Polynomial([[0, -1], [1, 1]])
