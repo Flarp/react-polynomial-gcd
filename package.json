@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require esm"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^2.0.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.2",
+    "esm": "^3.2.25",
+    "mocha": "^8.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "webpack": "^5.11.1"

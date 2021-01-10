@@ -1,4 +1,4 @@
-import {mod} from "./src/helperMath.js"
+import {mod, primesUnder} from "./helperMath.js"
 
 // borrowed from https://www.nickang.com/2018-01-17-how-to-clone-class-instance-javascript/
 // cloning ES6 classes is nightmarish and needs extra code
@@ -39,9 +39,7 @@ export class Polynomial {
 			}
 		}
 	}
-	console.log(this.print(), this.polynomial)
 	this.zeroOut()
-	console.log(this.print(), this.polynomial)
   }
   
   greaterThan(other) {
@@ -115,7 +113,6 @@ export class Polynomial {
 
 	// by using Object.is(), 0 !== -0
     while (r.degree() > b.degree() || Object.is(r.degree(), b.degree())) {
-		console.log("looping?", r.print(), b.print(), r.degree(), b.degree())
       const bLead = b.leadingTerm()
       let cancel = 0
       if (this.p === "q") {
@@ -125,10 +122,15 @@ export class Polynomial {
       }
       let qTemp = [r.degree() - b.degree(), cancel]
       const qTemp2 = new Polynomial([qTemp], this.p)
-      q = q.add(qTemp2)
+	  
       let negB = b.multiplyByTerm(...qTemp)
 
       r = r.add(negB)
+	  
+	  // add the proper term (negated in normal long division)
+	  qTemp[1] *= -1
+	  const qTemp3 = new Polynomial([qTemp], this.p)
+	  q = q.add(qTemp3)
     }
     return [r, q]
   }
@@ -238,6 +240,32 @@ export class Polynomial {
 	  }
 	  return [a.monik(), s[0], t[0]]
   }
-	  
+
+  static cyclotomic(n) {
+	  let poly = new Polynomial(1)
+	  const p = Math.floor(n/2)
+	  const under = primesUnder(n + 1)
+	  if (n === 1) {
+		return new Polynomial([[0, -1], [1, 1]])
+	  } else if (under.includes(n)) {
+		for (let i = 0; i < n; i++) {
+			poly = poly.add(new Polynomial([[i, 1]]))
+	    }
+		return poly
+	  } else if (n !== 4 && under.includes(p)) {
+		for (let i = 0; i < p; i++) {
+		  poly = poly.add(new Polynomial([[i, Math.pow(-1, i)]]))
+	    }
+		return poly
+	  } else {
+		poly = new Polynomial([[0, -1], [n, 1]])
+		for (let i = 1; i < n; i++) {
+		  if ((n % i) === 0) {
+			  poly = poly.divide(Polynomial.cyclotomic(i))[1]
+		  } 
+		}
+		return poly
+	  }
+  }
 
 }
