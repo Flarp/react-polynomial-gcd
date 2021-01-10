@@ -173,20 +173,17 @@ export class Polynomial {
   
   print() {
     let str = ""
-    let i = this.polynomial.length - 1
 	
-	// TODO: doesn't work yet for values when there are consecutive 0x^n
-    while (i >= 0) {
-      if (this.polynomial[i] !== 0) {
-		const abs = Math.abs(this.polynomial[i])
-        str += `${abs === 1 ? "" : abs}x^${i}`
-        if (i !== 0) {
-          str += Math.sign(this.polynomial[i-1]) === -1 ? " - " : " + "
-        }
-      }
-      i--
-    }
-    return str
+    for (let i = 0; i < this.polynomial.length; i++) {
+		if (this.polynomial[i] === 0) continue
+		const sign = Math.sign(this.polynomial[i]) === -1 ? "-" : "+"
+		const coef = Math.abs(this.polynomial[i])
+		str = `${coef !== 1 || i === 0 ? coef : ""}${i !== 0 ? `x^{${i}}` : ""}` + str
+		if (i !== this.polynomial.length - 1 || sign === "-") {
+			str = ` ${sign} ` + str
+		}
+	}
+	return str
   }
   
   static gcd(_a, _b) {

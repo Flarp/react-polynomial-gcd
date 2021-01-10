@@ -61,7 +61,7 @@ describe("Polynomials", () => {
 			const expQuotient = new Polynomial([[0, -1], [1, 1]], 2)
 			
 			const [remainder, quotient] = dividend.divide(divisor)
-			console.log(expQuotient.print())
+			//console.log(expQuotient.print())
 			
 			assert.deepEqual(quotient, expQuotient)
 			assert.deepEqual(remainder, new Polynomial(1, 2))
@@ -89,6 +89,7 @@ describe("Polynomials", () => {
 		it("nth cyclotomic polynomial where n is otherwise composite", () => {
 			const cycloNine = new Polynomial([[0, 1], [3, 1], [6, 1]])
 			const cycloSixteen = new Polynomial([[0, 1], [8, 1]])
+			//console.log(cycloNine.print())
 			assert.deepEqual(Polynomial.cyclotomic(9), cycloNine)
 			assert.deepEqual(Polynomial.cyclotomic(16), cycloSixteen)
 		})
