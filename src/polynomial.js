@@ -178,7 +178,7 @@ export class Polynomial {
 		if (this.polynomial[i] === 0) continue
 		const sign = Math.sign(this.polynomial[i]) === -1 ? "-" : "+"
 		const coef = Math.abs(this.polynomial[i])
-		str = `${coef !== 1 || i === 0 ? coef : ""}${i !== 0 ? `x^{${i}}` : ""}` + str
+		str = `${coef !== 1 || i === 0 ? coef : ""}${i !== 0 ? `x${i !== 1 ? `^{${i}}` : ""}` : ""}` + str
 		if (i !== this.polynomial.length - 1 || sign === "-") {
 			str = ` ${sign} ` + str
 		}
