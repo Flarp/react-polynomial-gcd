@@ -5,7 +5,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const entry = {
   gcd: "./src/gcdProgram.jsx",
   combiner: "./src/polynomialCombiner.jsx",
-  inverse: "./src/inverseFinder.jsx"
+  inverse: "./src/inverseFinder.jsx",
+  cyclotomic: "./src/cyclotomicFinder.jsx"
 }
 
 const plugins = Object.keys(entry).map(key => 

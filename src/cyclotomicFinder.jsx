@@ -1,8 +1,30 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import ReactDom from "react-dom"
 
-import {Polynomial} from "./src/polynomial.js"
+import {PrettyPolynomial} from "./prettyPolynomial.jsx"
+import {Polynomial} from "./polynomial.js"
 
-const nthCyclotomic = n => {
+class CyclotomicFinder extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = { n: 1, update: false }
+	}
 	
+	handleChange(e) {
+		this.setState({update: false, n: Number(e.target.value)})
+	}
+	
+	compute() {
+		this.setState({update: true})
+	}
+	
+	render() {
+		return (<div>
+			<input type="number" onChange={this.handleChange.bind(this)}/>
+			<button onClick={this.compute.bind(this)}>Get nth Cyclotomic Polynomial</button>
+			{this.state.update ? <PrettyPolynomial polynomial={Polynomial.cyclotomic(this.state.n)}/> : ""}
+		</div>)
+	}
 }
+
+ReactDom.render(<CyclotomicFinder/>, document.getElementById("main"))

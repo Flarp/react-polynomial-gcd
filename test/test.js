@@ -61,6 +61,7 @@ describe("Polynomials", () => {
 			const expQuotient = new Polynomial([[0, -1], [1, 1]], 2)
 			
 			const [remainder, quotient] = dividend.divide(divisor)
+			console.log(expQuotient.print())
 			
 			assert.deepEqual(quotient, expQuotient)
 			assert.deepEqual(remainder, new Polynomial(1, 2))

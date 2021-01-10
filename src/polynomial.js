@@ -174,11 +174,14 @@ export class Polynomial {
   print() {
     let str = ""
     let i = this.polynomial.length - 1
+	
+	// TODO: doesn't work yet for values when there are consecutive 0x^n
     while (i >= 0) {
       if (this.polynomial[i] !== 0) {
-        str += `${this.polynomial[i] === 1 ? "" : this.polynomial[i]}x^${i}`
+		const abs = Math.abs(this.polynomial[i])
+        str += `${abs === 1 ? "" : abs}x^${i}`
         if (i !== 0) {
-          str += " + "
+          str += Math.sign(this.polynomial[i-1]) === -1 ? " - " : " + "
         }
       }
       i--
