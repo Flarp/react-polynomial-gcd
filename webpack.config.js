@@ -25,11 +25,11 @@ module.exports = {
 	  filename: "[name].js",
 	  path: __dirname + "/dist"
   },
-  //devtool: "source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {
-        test: /.jsx$/,
+        test: /.jsx?$/,
 		exclude: /node_modules/,
 		include: path.resolve(__dirname, "src"),
 		use: ["babel-loader"]

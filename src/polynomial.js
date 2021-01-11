@@ -215,7 +215,11 @@ export class Polynomial {
 	  while (!b.isZero()) {
 		let temp = b
 		let q
-		[b, q] = a.divide(b)
+		console.log(b, a, "pre A B")
+		const L = a.divide(b)
+		b = L[0]
+		q = L[1]
+		console.log(temp, "temp")
 		
 		let tempR = q.multiply(b).multiplyByTerm(0, -1)
 		tempR = tempR.add(r[0])
@@ -235,6 +239,10 @@ export class Polynomial {
 		
 		a = temp
 	  }
+	  
+	  const aInvert = a.p === "q" ? 1/a.leadingTerm() : a.units[mod(a.leadingTerm(), a.p)]
+	  s[0] = s[0].multiplyByTerm(0, aInvert)
+	  t[0] = t[0].multiplyByTerm(0, aInvert)
 	  return [a.monik(), s[0], t[0]]
   }
 

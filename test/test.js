@@ -114,6 +114,10 @@ describe("Polynomials", () => {
 		})
 	})
 	
+	describe("extended GCD", () => {
+		
+	})
+	
 	describe("cyclotomic polynomials", () => {
 		it("nth cyclotomic polynomial where n is prime", () => {
 			const cycloSeven = new Polynomial([0,1,2,3,4,5,6].map(deg => [deg, 1]))

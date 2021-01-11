@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDom from "react-dom"
+import {MathComponent} from "mathjax-react"
 
 import {PolynomialStateComponent} from "./polynomialStateComponent.jsx"
 import {PolynomialComponent} from "./polynomialComponent.jsx"
@@ -23,13 +24,17 @@ const ExtendedRender = props => {
 	let polynomials = props.polynomials.map(halfPoly => 
 	  new Polynomial(halfPoly.map((term, i) => [i, Number(term)]), props.field)
 	)
-	const [gcd, inverse, v] = Polynomial.extendedGCD(polynomials[0], polynomials[1])
+	console.log(polynomials, "A B")
+	const [gcd, v, inverse] = Polynomial.extendedGCD(polynomials[0], polynomials[1])
 	let error = null
 	console.log(v.print(), v.degree(), gcd.print(), gcd.degree(), inverse.print(), inverse.degree())
-	if (gcd.degree() !== 0) error = <p style={{textColor: "red"}}> ERROR: No inverse for given polynomial in given ring</p>
+	if (gcd.degree() !== 0) error = <div style={{color: "red"}}> 
+		ERROR: No inverse for given polynomial in given ring: <MathComponent tex=
+			{`\\mathbb{${props.field === "q" ? "Q": "Z"}}_{${props.field !== "q" ? props.field : ""}}[x]/(${polynomials[1].print()})`}/>
+	</div>
 	return (<div>
 		<p>gcd(a, b) = au + bv</p>
-		<p>Inverse = {error || <PrettyPolynomial polynomial={inverse}/>}</p>
+		<div>Inverse = {error || <PrettyPolynomial polynomial={inverse}/>}</div>
 	</div>)
 }
 
