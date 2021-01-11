@@ -39,7 +39,18 @@ describe("Polynomials", () => {
 	})
 	
 	describe("multiplication", () => {
-		
+		it("multiplication in Q", () => {
+			const x1 = new Polynomial([[0, -2], [1, 1]])
+			const x2 = new Polynomial([[0, 3], [1, 1]])
+			const x3 = new Polynomial([[0, -5], [1, 1]])
+			
+			// chained multiplications should work
+			const r1 = x1.multiply(x2)
+			const r2 = r1.multiply(x3)
+			
+			assert.deepEqual(r1, new Polynomial([[0, -6], [1, 1], [2, 1]]))
+			assert.deepEqual(r2, new Polynomial([[0, 30], [1, -11], [2, -4], [3, 1]]))
+		})
 	})
 	
 	describe("division and modulus", () => {
@@ -61,15 +72,46 @@ describe("Polynomials", () => {
 			const expQuotient = new Polynomial([[0, -1], [1, 1]], 2)
 			
 			const [remainder, quotient] = dividend.divide(divisor)
-			//console.log(expQuotient.print())
 			
 			assert.deepEqual(quotient, expQuotient)
 			assert.deepEqual(remainder, new Polynomial(1, 2))
 		})
+		
+		it("division with remainder in Q", () => {
+			const dividend = new Polynomial([[0, -5], [1, 1], [2, 1]])
+			const divisor = new Polynomial([[0, 3], [1, 1]])
+			
+			const expQuotient = new Polynomial([[0, -2], [1, 1]])
+			const expRemainder = new Polynomial([[0, 1]])
+			
+			const [remainder, quotient] = dividend.divide(divisor)
+			
+			assert.deepEqual(quotient, expQuotient)
+			assert.deepEqual(remainder, expRemainder)
+		})
 	})
 	
-	describe("standard and extended GCD", () => {
+	describe("standard GCD", () => {
+		it("GCD with common factors in Q", () => {
+			const a = new Polynomial([[0, 2], [1, -3], [2, 1]])
+			const b = new Polynomial([[0, -2], [1, 1], [2, 1]])
+			
+			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, -1], [1, 1]]))
+		})
 		
+		it("GCD with no common factors in Q", () => {
+			const a = new Polynomial([[0, 2], [1, -3], [2, 1]])
+			const b = new Polynomial([[0, 6], [1, -1], [2, 1]])
+			
+			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, 1]]))
+		})
+		
+		it("GCD with common factors in Z_p", () => {
+			const a = new Polynomial([[0, 2], [1, 3], [2, 1]], 5)
+			const b = new Polynomial([[0, 18], [1, 9], [2, 1]], 5)
+			
+			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, 1], [1, 1]], 5))
+		})
 	})
 	
 	describe("cyclotomic polynomials", () => {
@@ -89,8 +131,9 @@ describe("Polynomials", () => {
 		it("nth cyclotomic polynomial where n is otherwise composite", () => {
 			const cycloNine = new Polynomial([[0, 1], [3, 1], [6, 1]])
 			const cycloSixteen = new Polynomial([[0, 1], [8, 1]])
-			//console.log(cycloNine.print())
+			const cycloFifteen = new Polynomial([[0, 1], [1, -1], [3, 1], [4, -1], [5, 1], [7, -1], [8, 1]])
 			assert.deepEqual(Polynomial.cyclotomic(9), cycloNine)
+			assert.deepEqual(Polynomial.cyclotomic(15), cycloFifteen)
 			assert.deepEqual(Polynomial.cyclotomic(16), cycloSixteen)
 		})
 	})

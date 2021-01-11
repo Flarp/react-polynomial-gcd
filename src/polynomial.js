@@ -25,10 +25,8 @@ export class Polynomial {
       let degree = inp
       this.polynomial = (new Array(degree)).fill(0)
     }
-	this.p = p || "q"
-	
-	// generate all multiplicative inverses in the field
 	this.units = []
+	this.p = p || "q"
 	if (this.p !== "q") {
 		for (let i = 0; i < this.p; i++) {
 			for (let k = i; k < this.p; k++) {
@@ -83,7 +81,6 @@ export class Polynomial {
   
   multiply(rhs) {
 	  const newDeg = this.degree() + rhs.degree()
-	  console.log(newDeg, this.degree(), rhs.degree())
 	  let ret = new Polynomial(newDeg, this.p)
 	  for (let k = 0; k <= newDeg; k++) {
 		  let sum = 0
@@ -168,7 +165,7 @@ export class Polynomial {
   }
   
   monik() {
-    return this.multiplyByTerm(0, this.p === "q" ? 1/this.leadingTerm() : this.units[this.leadingTerm()])
+    return this.multiplyByTerm(0, this.p === "q" ? 1/this.leadingTerm() : this.units[mod(this.leadingTerm(), this.p)])
   }
   
   print() {

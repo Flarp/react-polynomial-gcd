@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 const entry = {
@@ -25,12 +25,13 @@ module.exports = {
 	  filename: "[name].js",
 	  path: __dirname + "/dist"
   },
-  devtool: "source-map",
+  //devtool: "source-map",
   module: {
     rules: [
       {
         test: /.jsx$/,
 		exclude: /node_modules/,
+		include: path.resolve(__dirname, "src"),
 		use: ["babel-loader"]
       },
     ],
