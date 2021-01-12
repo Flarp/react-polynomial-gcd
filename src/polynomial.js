@@ -240,7 +240,7 @@ export class Polynomial {
 		a = temp
 	  }
 	  
-	  const aInvert = a.p === "q" ? 1/a.leadingTerm() : a.units[mod(a.leadingTerm(), a.p)]
+	  const aInvert = a.p === "q"? 1/a.leadingTerm() : a.units[mod(a.leadingTerm(), a.p)]
 	  s[0] = s[0].multiplyByTerm(0, aInvert)
 	  t[0] = t[0].multiplyByTerm(0, aInvert)
 	  return [a.monik(), s[0], t[0]]

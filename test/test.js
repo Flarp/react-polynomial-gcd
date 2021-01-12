@@ -51,6 +51,13 @@ describe("Polynomials", () => {
 			assert.deepEqual(r1, new Polynomial([[0, -6], [1, 1], [2, 1]]))
 			assert.deepEqual(r2, new Polynomial([[0, 30], [1, -11], [2, -4], [3, 1]]))
 		})
+		
+		it("multiplication in Z_p", () => {
+			const x1 = new Polynomial([[0, -2], [1, 1]], 3)
+			const x2 = new Polynomial([[0, -1], [1, 1]], 3)
+			
+			assert.deepEqual(x1.multiply(x2), new Polynomial([[0, 2], [2, 1]], 3))
+		})
 	})
 	
 	describe("division and modulus", () => {

@@ -22,7 +22,7 @@ class PolynomialCombiner extends PolynomialStateComponent {
 		return (<div>
 			{this.state.polynomials.slice(0, 2).map((poly, i) => <PolynomialComponent polynomial={poly} handle={this.handle.bind(this, i)} add={this.add.bind(this, i)} key={i}/>)}
 			<br></br>
-			<select onChange={e => this.setState({operation: e.target.value})}>
+			<select onChange={e => this.setState({operation: e.target.value, updateDisplay: false})}>
 				<option value="addition">Add</option>
 				<option value="multiply">Multiply</option>
 			</select>
