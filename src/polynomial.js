@@ -103,6 +103,10 @@ export class Polynomial {
 	return this.divide(b)[0]  
   }
   
+  quotient(b) {
+	return this.divide(b)[1]
+  }
+  
   divide(_b) {
     let r = cloneObj(this)
 	let b = cloneObj(_b)

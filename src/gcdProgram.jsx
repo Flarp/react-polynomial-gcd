@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+//import ReactDom from 'react-dom';
 
 import {PolynomialStateComponent} from "./polynomialStateComponent.jsx"
 import {PolynomialComponent} from "./polynomialComponent.jsx"
@@ -7,7 +7,8 @@ import {PrettyPolynomial} from "./prettyPolynomial.jsx"
 import {FieldSelector} from "./fieldSelector.jsx"
 import {Polynomial} from "./polynomial.js"
 
-class GCDPage extends PolynomialStateComponent {  
+
+export class GCDPage extends PolynomialStateComponent {  
   render() {
 	let GCD = null
 	if (this.state.updateDisplay) {
@@ -17,16 +18,18 @@ class GCDPage extends PolynomialStateComponent {
 		let result = Polynomial.gcd(...polynomials)
 		GCD = <PrettyPolynomial polynomial={result}/>
 	}
-    return <div>{this.state.polynomials.map((poly, i) =>
-        <PolynomialComponent polynomial={poly} handle={this.handle.bind(this, i)} add={this.add.bind(this, i)} key={i}/>
-      )}
+    return <div><div style={{display: "flex", justifyContent: "space-around"}}>{this.state.polynomials.map((poly, i) =>
+        <div><PolynomialComponent polynomial={poly} handle={this.handle.bind(this, i)} add={this.add.bind(this, i)} key={i}/></div>
+      )}</div>
       <br></br>
       <FieldSelector handleChange={this.updateUnits.bind(this)}/>
-      <br></br><button onClick={_ => this.setState({polynomials: [[0],[0]], updateDisplay: false})}>Reset</button>
-      <br></br><button onClick={_ => this.setState({updateDisplay: true})}>Calculate GCD</button>
+<center>
+      <br></br><button onClick={_ => this.setState({polynomials: [[0],[0]], updateDisplay: false})} className="btn btn-danger">Reset</button>
+      <br></br><button onClick={_ => this.setState({updateDisplay: true})} className="btn btn-primary">Calculate GCD</button>
+		  </center>
       {GCD}
       </div>
   }
 }
 
-ReactDom.render(<GCDPage/>, document.getElementById("main"))
+//ReactDom.render(<GCDPage/>, document.getElementById("main"))

@@ -9,8 +9,9 @@ export class FieldSelector extends React.Component {
   }
   
   render() {
-    return (<div>
-      <select onChange={this.props.handleChange}>
+    return (<div style={{width: "auto", display: "flex", justifyContent: "center"}}>
+      <p>Field: </p>
+      <select className="form-select" style={{width: "auto"}} onChange={this.props.handleChange}>
         <option value="q">ℚ</option>
         {this.primes.map(prime => <option value={prime} key={prime}>ℤ/{prime}</option>)}
       </select>

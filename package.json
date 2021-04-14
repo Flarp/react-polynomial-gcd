@@ -4,18 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --require esm",
+    "coverage": "nyc --all npm test"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "assert": "^2.0.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.2",
-    "esm": "^3.2.25",
     "mathjax-full": "^3.1.2",
     "mathjax-react": "^1.0.6",
-    "mocha": "^8.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "webpack": "^5.11.1"
@@ -23,6 +21,10 @@
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
-    "html-webpack-plugin": "^5.0.0-beta.4"
+    "assert": "^2.0.0",
+    "esm": "^3.2.25",
+    "html-webpack-plugin": "^5.0.0-beta.4",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0"
   }
 }

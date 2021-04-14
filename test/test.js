@@ -62,9 +62,9 @@ describe("Polynomials", () => {
 	
 	describe("division and modulus", () => {
 		it("division without remainder in Q", () => {
-			const dividend = new Polynomial([[0, -1], [4, 1]])
-			const divisor = new Polynomial([[0, 1], [2, 1]])
-			const expQuotient = new Polynomial([[0, -1], [2, 1]])
+			const dividend = new Polynomial([[0, -1], [4, 1]]) // (x^2 + 1)(x+1)(x-1)
+			const divisor = new Polynomial([[0, 1], [2, 1]]) // (x^2 + 1)
+			const expQuotient = new Polynomial([[0, -1], [2, 1]]) // (x+1)(x-1)
 			
 			const [remainder, quotient] = dividend.divide(divisor)
 			
@@ -73,15 +73,15 @@ describe("Polynomials", () => {
 		})
 		
 		it("division without remainder in Z_p", () => {
-			const dividend = new Polynomial([[0, -1], [3, 1]], 2)
-			const divisor = new Polynomial([[0, 1], [1, 3], [2, 1]])
+			const dividend = new Polynomial([[0, 18], [1, 9], [2, 1]], 5) // (x+3)(x+6) = (x+3)(x+1) (mod 5)
+			const divisor = new Polynomial([[0, 1], [1, 1]], 5) // (x+1)
 			
-			const expQuotient = new Polynomial([[0, -1], [1, 1]], 2)
+			const expQuotient = new Polynomial([[0, 3], [1, 1]], 5) // (x+3)
 			
 			const [remainder, quotient] = dividend.divide(divisor)
 			
 			assert.deepEqual(quotient, expQuotient)
-			assert.deepEqual(remainder, new Polynomial(1, 2))
+			assert.deepEqual(remainder, new Polynomial(1, 5))
 		})
 		
 		it("division with remainder in Q", () => {
@@ -100,24 +100,31 @@ describe("Polynomials", () => {
 	
 	describe("standard GCD", () => {
 		it("GCD with common factors in Q", () => {
-			const a = new Polynomial([[0, 2], [1, -3], [2, 1]])
-			const b = new Polynomial([[0, -2], [1, 1], [2, 1]])
+			const a = new Polynomial([[0, 2], [1, -3], [2, 1]]) // (x-2)(x-1)
+			const b = new Polynomial([[0, -2], [1, 1], [2, 1]]) // (x-2)(x+1)
 			
 			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, -1], [1, 1]]))
 		})
 		
 		it("GCD with no common factors in Q", () => {
-			const a = new Polynomial([[0, 2], [1, -3], [2, 1]])
-			const b = new Polynomial([[0, 6], [1, -1], [2, 1]])
+			const a = new Polynomial([[0, 2], [1, -3], [2, 1]]) // (x-2)(x-1)
+			const b = new Polynomial([[0, 12], [1, -7], [2, 1]]) // (x-3)(x-4)
 			
 			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, 1]]))
 		})
 		
 		it("GCD with common factors in Z_p", () => {
-			const a = new Polynomial([[0, 2], [1, 3], [2, 1]], 5)
-			const b = new Polynomial([[0, 18], [1, 9], [2, 1]], 5)
+			const a = new Polynomial([[0, 2], [1, 3], [2, 1]], 5) // (x+1)(x+2)
+			const b = new Polynomial([[0, 18], [1, 9], [2, 1]], 5) // (x+3)(x+6) = (x+3)(x+1) (mod 5)
 			
 			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, 1], [1, 1]], 5))
+		})
+		
+		it("GCD with no common factors in Z_p", () => {
+			const a = new Polynomial([[0, 6], [1, -5], [2, 1]], 5) // (x+2)(x+3)
+			const b = new Polynomial([[0, 1], [1, 2], [2, 1]], 5) // (x+1)(x+1)
+			
+			assert.deepEqual(Polynomial.gcd(a, b), new Polynomial([[0, 1]], 5))
 		})
 	})
 	
